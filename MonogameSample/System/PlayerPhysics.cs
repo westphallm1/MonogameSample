@@ -52,6 +52,10 @@ namespace MonogameSample.System
             {
                 movement.Velocity.Y += 0.5f;
             }
+            if(movement.Velocity.Y < 20 && InputSystem.Down)
+            {
+                movement.Velocity.Y += 1f;
+            }
         }
     }
 }

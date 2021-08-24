@@ -7,8 +7,10 @@
     <File>D:/Secondary Repos/MonogameSample/MonogameSample/Content/Arial.spritefont</File>
     <File>D:/Secondary Repos/MonogameSample/MonogameSample/Content/blob-man.png</File>
     <File>D:/Secondary Repos/MonogameSample/MonogameSample/Content/brick.png</File>
+    <File>D:/Secondary Repos/MonogameSample/MonogameSample/Content/grass.png</File>
   </SourceFiles>
   <DestFiles>
+    <File xsi:nil="true" />
     <File xsi:nil="true" />
     <File xsi:nil="true" />
     <File xsi:nil="true" />

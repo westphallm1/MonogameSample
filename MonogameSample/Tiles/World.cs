@@ -32,6 +32,16 @@ namespace MonogameSample.Tiles
                     }
                 }
             }
+            for(int i = 0; i < WorldWidth; i++)
+            {
+                for(int j = 0; j < WorldHeight; j++)
+                {
+                    if(tiles[i,j].IsActive)
+                    {
+                        Framing.FrameTile(i, j);
+                    }
+                }
+            }
         }
 
         public static void Draw(SpriteBatch spriteBatch)
@@ -47,15 +57,12 @@ namespace MonogameSample.Tiles
                 {
                     if(tiles[i,j].IsActive)
                     {
-                        Vector2 tilePosition = TileSize * new Vector2(i, j);
-                        spriteBatch.Draw(
-                            TextureCache.tileTexture, 
-                            tilePosition - GameCamera.ScreenPosition, 
-                            Color.White);
+                        Framing.DrawTile(spriteBatch, tiles[i,j], i, j);
                     }
                 }
             }
         }
+
 
         public static bool TileActive(int i, int j) => i < 0 || j < 0 || i >= tiles.GetLength(0) || j >= tiles.GetLength(1) || tiles[i, j].IsActive;
 

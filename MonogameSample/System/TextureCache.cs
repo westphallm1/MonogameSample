@@ -19,7 +19,7 @@ namespace MonogameSample.System
         public static void Load(ContentManager content)
         {
             playerTexture = content.Load<Texture2D>("blob-man");
-            tileTexture = content.Load<Texture2D>("brick");
+            tileTexture = content.Load<Texture2D>("grass");
         }
     }
 }
