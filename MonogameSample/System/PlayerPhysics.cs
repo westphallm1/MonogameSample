@@ -47,7 +47,8 @@ namespace MonogameSample.System
                 JumpFrame = Frame;
                 movement.Velocity.Y = -8;
             }
-            if(movement.Velocity.Y < 16 && Frame - JumpFrame > JumpDelay)
+            bool Ascending = Frame - JumpFrame < JumpDelay && InputSystem.Jump;
+            if(movement.Velocity.Y < 16 && !Ascending)
             {
                 movement.Velocity.Y += 0.5f;
             }

@@ -32,7 +32,7 @@ namespace MonogameSample.Utils
         {
             if(Text == default) { return; }
             float height = font.MeasureString(Text).Y;
-            Vector2 pos = new Vector2(8, Camera.Instance.ScreenHeight - height - 8);
+            Vector2 pos = new Vector2(8, Camera.GameCamera.ScreenHeight - height - 8);
             spriteBatch.DrawString(font, Text, pos, Color.White);
         }
     }

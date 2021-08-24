@@ -7,11 +7,11 @@ namespace MonogameSample.Utils
 {
     class Camera
     {
-        public static Camera Instance { get; private set; }
+        public static Camera GameCamera { get; private set; }
 
         public static void Load()
         {
-            Instance = new Camera();
+            GameCamera = new Camera();
         }
 
 
@@ -22,6 +22,7 @@ namespace MonogameSample.Utils
 
         public Vector2 ScreenPosition => Center - new Vector2(ScreenWidth, ScreenHeight) /2;
         public Vector2 BottomRight => Center - new Vector2(ScreenWidth, -ScreenHeight) / 2;
+        public Vector2 BottomLeft => Center + new Vector2(ScreenWidth, ScreenHeight) / 2;
 
         public void Update(Vector2 center, GameWindow window)
         {

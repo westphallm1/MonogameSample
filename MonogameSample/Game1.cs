@@ -14,7 +14,6 @@ namespace MonogameSample
         private GraphicsDeviceManager _graphics;
         private SpriteBatch _spriteBatch;
         private Entity player;
-        private SpriteFont font;
 
         public Game1()
         {
@@ -54,7 +53,7 @@ namespace MonogameSample
             InputSystem.Update();
             player.GetComponent<PlayerPhysics>().Update();
             MovementSystem.Update();
-            Camera.Instance.Update(player.GetComponent<MobileComponent>().Center, Window);
+            Camera.GameCamera.Update(player.GetComponent<MobileComponent>().Center, Window);
             GameText.Update(""+gameTime.TotalGameTime.Ticks);
             base.Update(gameTime);
         }

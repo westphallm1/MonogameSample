@@ -3,6 +3,7 @@ using Microsoft.Xna.Framework.Graphics;
 using System;
 using System.Collections.Generic;
 using System.Text;
+using static MonogameSample.Utils.Camera;
 
 namespace MonogameSample.System
 {
@@ -28,7 +29,7 @@ namespace MonogameSample.System
         internal override void Draw(SpriteBatch spriteBatch)
         {
             MobileComponent mover = Entity.GetComponent<MobileComponent>();
-            spriteBatch.Draw(texture, mover.Position, Color.White);
+            spriteBatch.Draw(texture, mover.Position - GameCamera.ScreenPosition, Color.White);
         }
     }
 }
