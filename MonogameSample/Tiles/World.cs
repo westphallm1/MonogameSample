@@ -21,14 +21,30 @@ namespace MonogameSample.Tiles
         public static void Load(ContentManager content)
         {
             tiles = new Tile[400, 50];
+            FastNoiseLite noise = new FastNoiseLite();
+            noise.SetNoiseType(FastNoiseLite.NoiseType.Perlin);
+            noise.SetSeed((int)DateTimeOffset.Now.ToUnixTimeMilliseconds());
+            noise.SetFrequency(0.03f);
+            
             for(int i = 0; i < WorldWidth; i++)
             {
-                int groundLevel = WorldHeight / 2 + (int)(10 * Math.Sin(MathHelper.TwoPi * i / 50));
+                float groundLevel = 25 + 10 * noise.GetNoise(i, 0);
+
+                float grassHeight = 4 + 2 * noise.GetNoise(i, i);
+
+                float stoneHeight = 14 + 4 * noise.GetNoise(i, i);
                 for(int j = 0; j < WorldHeight; j++)
                 {
-                    if(j > groundLevel)
+                    if(j > groundLevel + stoneHeight)
+                    {
+                        tiles[i, j] = new Tile(STONE);
+                    } else if(j > groundLevel + grassHeight)
                     {
                         tiles[i, j] = new Tile(DIRT);
+                    } else if (j > groundLevel)
+                    {
+                        tiles[i, j] = new Tile(GRASS);
+
                     }
                 }
             }

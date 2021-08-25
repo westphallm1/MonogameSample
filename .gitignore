@@ -1,3 +1,6 @@
 MonogameSample/obj/
 MonogameSample/bin/
+MonogameSample/Content/bin
+MonogameSample/Content/obj
+MonogameSample/FastNoiseLite/
 .vs/

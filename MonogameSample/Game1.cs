@@ -36,9 +36,9 @@ namespace MonogameSample
         protected override void LoadContent()
         {
             _spriteBatch = new SpriteBatch(GraphicsDevice);
+            Framing.Load();
             World.Load(Content);
             TextureCache.Load(Content);
-            Framing.Load();
             GameText.Load(Content);
             player = Player.MakePlayer();
             MovementSystem.Movers.Add(player.GetComponent<MobileComponent>());

@@ -15,6 +15,9 @@ namespace MonogameSample.System
         public sbyte XCollision { get; set; }
         public sbyte YCollision { get; set; }
 
+        // keep track of whether it's a "steppable" collision (a single tile in the x direction)
+        public bool SteppableCollision { get; set; }
+
 
         public int Width { get; set; }
         public int Height { get; set; }

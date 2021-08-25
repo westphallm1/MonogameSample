@@ -1,4 +1,5 @@
 ﻿using MonogameSample.Entities;
+using MonogameSample.Tiles;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -22,6 +23,7 @@ namespace MonogameSample.System
         public PlayerPhysics()
         {
         }
+
         public void Update()
         {
             MobileComponent movement = Entity.GetComponent<MobileComponent>();
@@ -42,11 +44,17 @@ namespace MonogameSample.System
             }
 
             // (do you believe in) gravity
-            if(InputSystem.Jump && movement.YCollision == 1)
+            if(InputSystem.Jump && (movement.SteppableCollision || movement.YCollision == 1))
             {
                 JumpFrame = Frame;
                 movement.Velocity.Y = -8;
             }
+            // climp up small bumps
+            if(movement.SteppableCollision && movement.Velocity.Y > -2)
+            {
+                movement.Position.Y -= World.TileSize / 4;
+                movement.Velocity.Y = 0;
+            } 
             bool Ascending = Frame - JumpFrame < JumpDelay && InputSystem.Jump;
             if(movement.Velocity.Y < 16 && !Ascending)
             {
