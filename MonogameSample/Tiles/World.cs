@@ -16,11 +16,15 @@ namespace MonogameSample.Tiles
         public static Tile[,] tiles;
         public static readonly int TileSize = 16;
 
+        public static byte[,] lightLevels;
+        public static readonly int LightLevels = 5;
+
         public static int WorldWidth => tiles.GetLength(0);
         public static int WorldHeight => tiles.GetLength(1);
         public static void Load(ContentManager content)
         {
             tiles = new Tile[400, 50];
+            lightLevels = new byte[WorldWidth, WorldHeight];
             FastNoiseLite noise = new FastNoiseLite();
             noise.SetNoiseType(FastNoiseLite.NoiseType.Perlin);
             noise.SetSeed((int)DateTimeOffset.Now.ToUnixTimeMilliseconds());
@@ -54,7 +58,7 @@ namespace MonogameSample.Tiles
                 {
                     if(tiles[i,j].IsActive)
                     {
-                        Framing.FrameTile(i, j);
+                        TileState.UpdateTileState(i, j);
                     }
                 }
             }
@@ -73,7 +77,7 @@ namespace MonogameSample.Tiles
                 {
                     if(tiles[i,j].IsActive)
                     {
-                        Framing.DrawTile(spriteBatch, tiles[i,j], i, j);
+                        TileState.DrawTile(spriteBatch, tiles[i,j], i, j);
                     }
                 }
             }

@@ -36,7 +36,7 @@ namespace MonogameSample
         protected override void LoadContent()
         {
             _spriteBatch = new SpriteBatch(GraphicsDevice);
-            Framing.Load();
+            TileState.Load();
             World.Load(Content);
             TextureCache.Load(Content);
             GameText.Load(Content);
