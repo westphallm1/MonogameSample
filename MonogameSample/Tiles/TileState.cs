@@ -66,7 +66,7 @@ namespace MonogameSample.Tiles
             tiles[i, j].Configuration = neighbors.GetConfiguration();
             tiles[i, j].Bounds = GetBounds(ref tiles[i, j], i, j);
             BlendTile(neighbors, i, j);
-            AddLight(i, j);
+            Lighting.AddLight(i, j);
         }
 
         public static void BlendTile(int i, int j)
@@ -75,27 +75,6 @@ namespace MonogameSample.Tiles
             BlendTile(neighbors, i, j);
         }
 
-        public static void AddLight(int i, int j)
-        {
-            if(!tiles[i, j].IsActive) { return; }
-            // todo figure out how to remove light
-            // currently, light just comes from the air
-            int iMin = Math.Max(0, i - 1);
-            int iMax = Math.Min(WorldWidth -1, i+1);
-            int jMin = Math.Max(0, j - 1);
-            int jMax = Math.Min(WorldHeight -1, j+1);
-            for(int x = iMin; x <= iMax; x++)
-            {
-                for(int y = jMin; y <= jMax; y++)
-                {
-                    if(tiles[x,y].Type == TileType.AIR)
-                    {
-                        lightLevels[i, j] = (byte)LightLevels;
-                        return;
-                    }
-                }
-            }
-        }
         /// <summary>
         /// Blend tile down and to the right
         /// </summary>
@@ -155,7 +134,7 @@ namespace MonogameSample.Tiles
 
         public static void DrawTile(SpriteBatch spriteBatch, Tile tile, int i, int j)
         {
-            float lightLevel = lightLevels[i, j] / (float) LightLevels;
+            float lightLevel = Lighting.lightLevels[i, j] / (float) Lighting.MaxLightLevel;
             Color drawColor = Color.White * lightLevel;
             drawColor.A = 255;
             Vector2 tilePosition = TileSize * new Vector2(i, j);
