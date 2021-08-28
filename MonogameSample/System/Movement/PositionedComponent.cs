@@ -3,22 +3,11 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 
-namespace MonogameSample.System
+namespace MonogameSample.System.Movement
 {
-    class MobileComponent : Component
+    class PositionedComponent : Component
     {
         public Vector2 Position;
-        public Vector2 Velocity;
-
-        // keep track of collision direction
-        // -1 -> 1
-        public sbyte XCollision { get; set; }
-        public sbyte YCollision { get; set; }
-
-        // keep track of whether it's a "steppable" collision (a single tile in the x direction)
-        public bool SteppableCollision { get; set; }
-
-
         public int Width { get; set; }
         public int Height { get; set; }
 

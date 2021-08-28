@@ -1,12 +1,14 @@
 ﻿using MonogameSample.Entities;
+using MonogameSample.System.AI;
+using MonogameSample.System.Movement;
 using MonogameSample.Tiles;
 using System;
 using System.Collections.Generic;
 using System.Text;
 
-namespace MonogameSample.System
+namespace MonogameSample.System.AI
 {
-    class PlayerPhysics : Component
+    class PlayerPhysics : AIComponent
     {
 
         // old favorite
@@ -20,11 +22,7 @@ namespace MonogameSample.System
         static readonly float VelStep = 2;
         static readonly float VelDecay = 0.8f;
 
-        public PlayerPhysics()
-        {
-        }
-
-        public void Update()
+        public override void Update()
         {
             MobileComponent movement = Entity.GetComponent<MobileComponent>();
             Frame++;

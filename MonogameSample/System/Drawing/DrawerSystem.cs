@@ -1,9 +1,10 @@
 ﻿using Microsoft.Xna.Framework.Graphics;
+using MonogameSample.System.Drawing;
 using System;
 using System.Collections.Generic;
 using System.Text;
 
-namespace MonogameSample.System
+namespace MonogameSample.System.Drawing
 {
     class DrawerSystem
     {
@@ -13,10 +14,11 @@ namespace MonogameSample.System
         {
             for(int i = 0; i < Drawers.Count; i++)
             {
-                Drawers[i].Draw(spriteBatch);
+                if(Drawers[i].ShouldDraw())
+                {
+                    Drawers[i].Draw(spriteBatch);
+                }
             }
         }
-
-
     }
 }

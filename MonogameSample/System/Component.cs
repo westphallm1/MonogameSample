@@ -14,11 +14,22 @@ namespace MonogameSample.System
         {
             Entity = entity;
             IsActive = true;
+            AddToSystem();
         }
 
         public void Detach()
         {
             IsActive = false;
+        }
+
+        public virtual void PostAttach()
+        {
+            // no-op, runs after Entity is fully configured
+        }
+
+        public virtual void AddToSystem()
+        {
+            // no-op, might want to be moved externally
         }
 
     }

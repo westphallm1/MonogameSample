@@ -16,6 +16,8 @@ namespace MonogameSample.System
         public static Texture2D[] tileTexture;
         public static Texture2D outlineRoughTexture;
         public static Texture2D outlineSmoothTexture;
+        public static Texture2D folliageTexture;
+        public static Texture2D trunkTexture;
 
 
 
@@ -28,6 +30,8 @@ namespace MonogameSample.System
             tileTexture[(int)TileType.GRASS] = content.Load<Texture2D>("grass");
             tileTexture[(int)TileType.DIRT] = content.Load<Texture2D>("dirt");
             tileTexture[(int)TileType.STONE] = content.Load<Texture2D>("stonet");
+            trunkTexture = content.Load<Texture2D>("trunks");
+            folliageTexture = content.Load<Texture2D>("treetops");
         }
     }
 }

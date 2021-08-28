@@ -8,6 +8,7 @@ using System.Collections.Generic;
 using System.Text;
 using static MonogameSample.Utils.Camera;
 using static MonogameSample.Tiles.TileType;
+using MonogameSample.Entities;
 
 namespace MonogameSample.Tiles
 {
@@ -20,7 +21,7 @@ namespace MonogameSample.Tiles
         public static int WorldHeight => tiles.GetLength(1);
         public static void Load(ContentManager content)
         {
-            tiles = new Tile[400, 50];
+            tiles = new Tile[800, 50];
             Lighting.lightLevels = new byte[WorldWidth, WorldHeight];
             FastNoiseLite noise = new FastNoiseLite();
             noise.SetNoiseType(FastNoiseLite.NoiseType.Perlin);
@@ -30,6 +31,12 @@ namespace MonogameSample.Tiles
             for(int i = 0; i < WorldWidth; i++)
             {
                 float groundLevel = 25 + 10 * noise.GetNoise(i, 0);
+
+                // Add trees, probably should do somewhere else
+                if(i >= 10 && i%10 == 0)
+                {
+                    Scenery.PlaceTree(i, (int)Math.Ceiling(groundLevel));
+                }
 
                 float grassHeight = 4 + 2 * noise.GetNoise(i, i);
 

@@ -4,7 +4,7 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 
-namespace MonogameSample.System
+namespace MonogameSample.System.Movement
 {
     class MovementSystem
     {
