@@ -20,7 +20,6 @@ namespace MonogameSample.Entities
 
             int trunkIdx = World.random.Next(2);
             int folliageIdx = World.random.Next(2);
-            float folliageRotation = (float)(World.random.NextDouble() * MathHelper.Pi/8)  - MathHelper.Pi/16;
             Vector2 folliageOffset = Vector2.UnitY * World.random.Next(-4, 6);
             Entity tree = new Entity(
                 EntityTag.SCENERY,
@@ -31,7 +30,7 @@ namespace MonogameSample.Entities
                         TextureCache.folliageTexture, 
                         new Rectangle(treeSize * folliageIdx, 0, treeSize, treeSize), 
                         folliageOffset, 
-                        folliageRotation)
+                        0)
                 ));
             scenery.Add(tree);
             return tree;

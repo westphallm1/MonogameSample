@@ -52,7 +52,7 @@ namespace MonogameSample.Tiles
             {
                 CreateGround,
                 CreateTunnels,
-                // PlaceTrees
+                PlaceTrees
             };
 
             TerrainGenerators.ForEach(g => g.Invoke());

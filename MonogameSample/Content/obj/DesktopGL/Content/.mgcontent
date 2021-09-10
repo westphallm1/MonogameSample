@@ -10,11 +10,17 @@
     <File>D:/Secondary Repos/MonogameSample/MonogameSample/Content/dirt.png</File>
     <File>D:/Secondary Repos/MonogameSample/MonogameSample/Content/grass.png</File>
     <File>D:/Secondary Repos/MonogameSample/MonogameSample/Content/outline-rough.png</File>
+    <File>D:/Secondary Repos/MonogameSample/MonogameSample/Content/Parallax/parallax_0.png</File>
+    <File>D:/Secondary Repos/MonogameSample/MonogameSample/Content/Parallax/parallax_1.png</File>
+    <File>D:/Secondary Repos/MonogameSample/MonogameSample/Content/Parallax/parallax_2.png</File>
     <File>D:/Secondary Repos/MonogameSample/MonogameSample/Content/stonet.png</File>
     <File>D:/Secondary Repos/MonogameSample/MonogameSample/Content/treetops.png</File>
     <File>D:/Secondary Repos/MonogameSample/MonogameSample/Content/trunks.png</File>
   </SourceFiles>
   <DestFiles>
+    <File xsi:nil="true" />
+    <File xsi:nil="true" />
+    <File xsi:nil="true" />
     <File xsi:nil="true" />
     <File xsi:nil="true" />
     <File xsi:nil="true" />

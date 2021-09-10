@@ -14,6 +14,7 @@ namespace MonogameSample.System
     {
         public static Texture2D playerTexture;
         public static Texture2D[] tileTexture;
+        public static Texture2D[] parallaxTexture;
         public static Texture2D outlineRoughTexture;
         public static Texture2D outlineSmoothTexture;
         public static Texture2D folliageTexture;
@@ -25,6 +26,7 @@ namespace MonogameSample.System
         public static void Load(ContentManager content)
         {
             tileTexture = new Texture2D[20];
+            parallaxTexture = new Texture2D[3];
             playerTexture = content.Load<Texture2D>("blob-man");
             outlineRoughTexture = content.Load<Texture2D>("outline-rough");
             tileTexture[(int)TileType.GRASS] = content.Load<Texture2D>("grass");
@@ -32,6 +34,11 @@ namespace MonogameSample.System
             tileTexture[(int)TileType.STONE] = content.Load<Texture2D>("stonet");
             trunkTexture = content.Load<Texture2D>("trunks");
             folliageTexture = content.Load<Texture2D>("treetops");
+
+            for (int i = 0; i < parallaxTexture.Length; i++)
+            {
+                parallaxTexture[i] = content.Load<Texture2D>("Parallax/parallax_" + i);
+            }
         }
     }
 }

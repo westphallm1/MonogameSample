@@ -56,7 +56,7 @@ namespace MonogameSample
             AISystem.Update();
             MovementSystem.Update();
             Camera.GameCamera.Update(player.GetComponent<MobileComponent>().Center, Window);
-            GameText.Update(""+1f/gameTime.ElapsedGameTime.TotalSeconds);
+            GameText.Update("");
             base.Update(gameTime);
         }
 
@@ -64,6 +64,7 @@ namespace MonogameSample
         {
             GraphicsDevice.Clear(Color.CornflowerBlue);
             _spriteBatch.Begin();
+            Parallax.Draw(_spriteBatch);
             DrawerSystem.Draw(_spriteBatch);
             World.Draw(_spriteBatch);
             GameText.Draw(_spriteBatch);

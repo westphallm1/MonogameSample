@@ -66,7 +66,7 @@ namespace MonogameSample.System.AI
             ProcessLateralInputs();
             ApplyGravity();
             bodyLayer.Frame = (Frame / 5) % 10;
-            if (!CheckForJump() && Math.Abs(movement.Velocity.X) < 0.01f)
+            if (!CheckForJump() && Math.Abs(movement.Velocity.X) < 1f)
             {
                 State = PlayerState.IDLE;
             }
@@ -103,7 +103,7 @@ namespace MonogameSample.System.AI
             ProcessLateralInputs();
             ApplyGravity();
             bodyLayer.Frame = 10;
-            if (!CheckForJump() && Math.Abs(movement.Velocity.X) > 0.01f)
+            if (!CheckForJump() && Math.Abs(movement.Velocity.X) > 1f)
             {
                 State = PlayerState.WALKING;
             }
