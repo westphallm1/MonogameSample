@@ -56,7 +56,7 @@ namespace MonogameSample
             AISystem.Update();
             MovementSystem.Update();
             Camera.GameCamera.Update(player.GetComponent<MobileComponent>().Center, Window);
-            // GameText.Update(""+gameTime.TotalGameTime.Ticks);
+            GameText.Update(""+1f/gameTime.ElapsedGameTime.TotalSeconds);
             base.Update(gameTime);
         }
 
@@ -66,7 +66,7 @@ namespace MonogameSample
             _spriteBatch.Begin();
             DrawerSystem.Draw(_spriteBatch);
             World.Draw(_spriteBatch);
-            // GameText.Draw(_spriteBatch);
+            GameText.Draw(_spriteBatch);
             _spriteBatch.End();
             base.Draw(gameTime);
         }

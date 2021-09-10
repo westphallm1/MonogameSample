@@ -28,7 +28,9 @@ namespace MonogameSample.Utils
 
         public void Update(Vector2 center, GameWindow window)
         {
-            Center = center;
+            // smoothly move towards the center
+            Center.X = MathHelper.Lerp(Center.X, center.X, 0.5f);
+            Center.Y = MathHelper.Lerp(Center.Y, center.Y, 0.5f);
             ScreenWidth = window.ClientBounds.Width;
             ScreenHeight = window.ClientBounds.Height;
         }

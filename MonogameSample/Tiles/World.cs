@@ -19,28 +19,71 @@ namespace MonogameSample.Tiles
 
         public static int WorldWidth => tiles.GetLength(0);
         public static int WorldHeight => tiles.GetLength(1);
+
+        private static FastNoiseLite terrainNoise;
+        private static FastNoiseLite hillNoise;
+
+        private static List<Action> TerrainGenerators;
+
+        public static Random random;
+
+        private static void SetupNoises(int seed)
+        {
+            terrainNoise = new FastNoiseLite();
+            terrainNoise.SetNoiseType(FastNoiseLite.NoiseType.Perlin);
+            terrainNoise.SetSeed(seed);
+            terrainNoise.SetFrequency(0.03f);
+
+            hillNoise = new FastNoiseLite();
+            hillNoise.SetNoiseType(FastNoiseLite.NoiseType.Perlin);
+            hillNoise.SetSeed(seed);
+            hillNoise.SetFrequency(0.01f);
+
+            random = new Random(seed);
+        }
         public static void Load(ContentManager content)
         {
-            tiles = new Tile[800, 50];
+            tiles = new Tile[800, 100];
             Lighting.lightLevels = new byte[WorldWidth, WorldHeight];
-            FastNoiseLite noise = new FastNoiseLite();
-            noise.SetNoiseType(FastNoiseLite.NoiseType.Perlin);
-            noise.SetSeed((int)DateTimeOffset.Now.ToUnixTimeMilliseconds());
-            noise.SetFrequency(0.03f);
-            
+            SetupNoises((int)DateTimeOffset.Now.ToUnixTimeMilliseconds());
+
+            // todo dynamically inject a list of generators
+            TerrainGenerators = new List<Action>
+            {
+                CreateGround,
+                CreateTunnels,
+                // PlaceTrees
+            };
+
+            TerrainGenerators.ForEach(g => g.Invoke());
+
+            for (int i = 0; i < WorldWidth; i++)
+            {
+                for(int j = 0; j < WorldHeight; j++)
+                {
+                    if(tiles[i,j].IsActive)
+                    {
+                        TileState.UpdateTileState(i, j);
+                        Lighting.AddLight(i, j);
+                    }
+                }
+            }
+        }
+
+        public static float GetGroundLevel(int i)
+        {
+            return 50 + 10 * terrainNoise.GetNoise(i, 0) +  50 * Math.Max(0, hillNoise.GetNoise(i,0));
+        }
+
+        public static void CreateGround()
+        {
             for(int i = 0; i < WorldWidth; i++)
             {
-                float groundLevel = 25 + 10 * noise.GetNoise(i, 0);
+                float groundLevel = GetGroundLevel(i);
 
-                // Add trees, probably should do somewhere else
-                if(i >= 10 && i%10 == 0)
-                {
-                    Scenery.PlaceTree(i, (int)Math.Ceiling(groundLevel));
-                }
+                float grassHeight = 4 + 2 * terrainNoise.GetNoise(i, i);
 
-                float grassHeight = 4 + 2 * noise.GetNoise(i, i);
-
-                float stoneHeight = 14 + 4 * noise.GetNoise(i, i);
+                float stoneHeight = 14 + 4 * terrainNoise.GetNoise(i, i);
                 for(int j = 0; j < WorldHeight; j++)
                 {
                     if(j > groundLevel + stoneHeight)
@@ -52,21 +95,66 @@ namespace MonogameSample.Tiles
                     } else if (j > groundLevel)
                     {
                         tiles[i, j] = new Tile(GRASS);
+                    }
+                }
+            }
+        }
 
-                    }
-                }
-            }
-            for(int i = 0; i < WorldWidth; i++)
+        public static void CreateTunnels()
+        {
+            for(int i = 50; i < WorldWidth - 50; i+= 150)
             {
-                for(int j = 0; j < WorldHeight; j++)
+                CreateTunnel(i, 10);
+            }
+        }
+
+        public static void CreateTunnel(int startI, int startJ, bool followGround = true)
+        {
+            int tunnelLength = (int)(30 + 12 * terrainNoise.GetNoise(startI * 2, startI * 2));
+            int startOffset = (int)(10 * terrainNoise.GetNoise(0, startI));
+            for(int i = startI + startOffset; i < startI + startOffset + tunnelLength; i++)
+            {
+                int height = (int)(4 + 2 * terrainNoise.GetNoise(i, i + 100));
+                int startHeight = (int)GetGroundLevel(i) - startJ - height/2;
+                for(int j = startHeight; j < startHeight + height; j++)
                 {
-                    if(tiles[i,j].IsActive)
-                    {
-                        TileState.UpdateTileState(i, j);
-                        Lighting.AddLight(i, j);
-                    }
+                    tiles[i, j].Configuration = TileConfiguration.FULL;
+                    tiles[i, j].Type = GRASS;
+                }
+
+            }
+        }
+
+        public static void PlaceTrees()
+        {
+            for (int i = 10; i < WorldWidth - 10; i++)
+            {
+                // probe downwards
+                int frequency = (int)(10 - 4 * (1 + terrainNoise.GetNoise(i, 30)) / 2);
+                if(i % frequency != 0) { continue; }
+                int j;
+                for(j = 0; j < WorldHeight; j++)
+                {
+                    if(tiles[i, j].IsActive) { break; }
+                }
+                if(tiles[i, j].Type != GRASS) { continue; }
+                if(CheckFlatGround(i - 1, j, 3))
+                {
+                    Scenery.PlaceTree(i, j);
                 }
             }
+        }
+
+        public static bool CheckFlatGround(int startI, int j, int width)
+        {
+            for(int i = startI; i < startI + width; i++)
+            {
+                if(!tiles[i, j].IsActive || tiles[i, j-1].IsActive)
+                {
+                    return false;
+                }
+            }
+            return true;
         }
 
         public static void Draw(SpriteBatch spriteBatch)

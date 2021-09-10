@@ -36,7 +36,7 @@ namespace MonogameSample.Tiles
             { Top: false, Bottom: true, Left: true, Right: false} => TOP_RIGHT,
             { Top: false, Bottom: true, Left: false, Right: true} => TOP_LEFT,
             { Top: true, Bottom: true, Left: true, Right: true} => FULL,
-            _ => INACTIVE
+            _ => FULL
         };
     }
     class TileState
@@ -83,26 +83,25 @@ namespace MonogameSample.Tiles
         /// <param name="j"></param>
         public static void BlendTile(TileNeighbors neighbors, int i, int j)
         {
-            //blend down and to the right
-            if(!neighbors.Bottom)
+            // left
+            if (!neighbors.Left && i > 0 && tiles[i - 1, j].IsActive)
             {
-                if (!neighbors.Left && i > 0 && tiles[i - 1, j].IsActive)
-                {
-                    tiles[i, j].AdjacentType = tiles[i - 1, j].Type;
-                    // need to re-frame predecessor (bad!)
-                    // todo unroll tail recursion
-                    UpdateTileState(i - 1, j);
-                } 
-                else if (j < WorldHeight - 1 && tiles[i, j + 1].IsActive)
-                {
-                    tiles[i, j].AdjacentType = tiles[i, j + 1].Type;
-                } 
-                else if (!neighbors.Right && i < WorldWidth - 1 && tiles[i + 1, j].IsActive)
-                {
-                    tiles[i, j].AdjacentType = tiles[i + 1, j].Type;
-                }
+                tiles[i, j].AdjacentType = tiles[i - 1, j].Type;
+                // need to re-frame predecessor (bad!)
+                // todo unroll tail recursion
+                UpdateTileState(i - 1, j);
+            } 
+            // bottom
+            else if (!neighbors.Bottom && j < WorldHeight - 1 && tiles[i, j + 1].IsActive)
+            {
+                tiles[i, j].AdjacentType = tiles[i, j + 1].Type;
+            } 
+            // right
+            else if (!neighbors.Right && i < WorldWidth - 1 && tiles[i + 1, j].IsActive)
+            {
+                tiles[i, j].AdjacentType = tiles[i + 1, j].Type;
             }
-
+            // don't blend upwards, may be a problem later
         }
 
         /// <summary>

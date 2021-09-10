@@ -14,8 +14,8 @@ namespace MonogameSample.Entities
         {
             return new Entity(
                 EntityTag.PLAYER,
-                new MobileComponent() { Width = 24, Height = 22 },
-                new BasicTextureDrawer(TextureCache.playerTexture),
+                new MobileComponent() { Width = 30, Height = 40 },
+                new LayeredTextureDrawer(new FramedTextureLayer(TextureCache.playerTexture, 14)),
                 new PlayerPhysics());
         }
     }

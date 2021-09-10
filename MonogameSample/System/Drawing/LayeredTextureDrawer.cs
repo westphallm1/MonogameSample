@@ -16,6 +16,7 @@ namespace MonogameSample.System.Drawing
         internal Vector2 Offset;
         internal float Rotation;
         internal float Scale;
+        internal SpriteEffects SpriteEffects;
 
         internal bool ShouldDraw;
         // TODO some way to dynamically update
@@ -31,9 +32,32 @@ namespace MonogameSample.System.Drawing
         }
     }
 
+    class FramedTextureLayer : TextureLayer
+    {
+        private int frameCount;
+        private int _frame;
+        public int Frame 
+        { 
+            get => _frame; 
+            set 
+            {
+                _frame = value;
+                int frameHeight = Texture.Height / frameCount;
+                Bounds = new Rectangle(0, frameHeight * _frame, Texture.Width, frameHeight);
+            } 
+        }
+        public FramedTextureLayer(Texture2D texture, int frameCount, Vector2 offset = default, float rotation = default, float scale = default)
+            : base(texture, default, offset, rotation, scale)
+        {
+            this.frameCount = frameCount;
+            Frame = 0;
+        }
+
+    }
+
     class LayeredTextureDrawer : PositionedDrawerComponent
     {
-        private TextureLayer[] Layers;
+        public TextureLayer[] Layers;
 
         public LayeredTextureDrawer(params TextureLayer[] layers)
         {
@@ -49,7 +73,7 @@ namespace MonogameSample.System.Drawing
                 Vector2 position = location.Center + drawer.Offset - GameCamera.ScreenPosition;
                 Vector2 origin = new Vector2(drawer.Bounds.Width / 2, drawer.Bounds.Height / 2);
                 spriteBatch.Draw(
-                    drawer.Texture, position, drawer.Bounds, Color.White, drawer.Rotation, origin, drawer.Scale, 0, 0);
+                    drawer.Texture, position, drawer.Bounds, Color.White, drawer.Rotation, origin, drawer.Scale, drawer.SpriteEffects, 0);
             }
         }
     }

@@ -16,13 +16,22 @@ namespace MonogameSample.Entities
         {
             int treeSize = 96;
             Vector2 basePosition = new Vector2(i, j) * World.TileSize;
-            Vector2 position = basePosition - new Vector2(treeSize / 2, treeSize - 2);
+            Vector2 position = basePosition - new Vector2(treeSize / 2 - World.TileSize/2, treeSize - 2);
+
+            int trunkIdx = World.random.Next(2);
+            int folliageIdx = World.random.Next(2);
+            float folliageRotation = (float)(World.random.NextDouble() * MathHelper.Pi/8)  - MathHelper.Pi/16;
+            Vector2 folliageOffset = Vector2.UnitY * World.random.Next(-4, 6);
             Entity tree = new Entity(
                 EntityTag.SCENERY,
                 new PositionedComponent() { Width = treeSize, Height = treeSize, Position = position },
                 new LayeredTextureDrawer(
-                    new TextureLayer(TextureCache.trunkTexture, new Rectangle(0, 0, treeSize, treeSize)),
-                    new TextureLayer(TextureCache.folliageTexture, new Rectangle(0, 0, treeSize, treeSize))
+                    new TextureLayer(TextureCache.trunkTexture, new Rectangle(treeSize * trunkIdx, 0, treeSize, treeSize)),
+                    new TextureLayer(
+                        TextureCache.folliageTexture, 
+                        new Rectangle(treeSize * folliageIdx, 0, treeSize, treeSize), 
+                        folliageOffset, 
+                        folliageRotation)
                 ));
             scenery.Add(tree);
             return tree;
